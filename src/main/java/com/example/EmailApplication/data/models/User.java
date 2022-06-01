@@ -24,6 +24,8 @@ public class User {
 
     private List<Notification> notifications = new ArrayList<>();
 
+    private boolean isLoggedIn;
+
     public User(String email, String password){
         this.email = email;
         this.password = password;

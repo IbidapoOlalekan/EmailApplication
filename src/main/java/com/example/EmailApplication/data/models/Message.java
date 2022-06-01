@@ -6,13 +6,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Document
 public class Message {
     @Id
     private String id;
-    private String receiver;
+    private List<String> receiver = new ArrayList<>();
     private String sender;
     private boolean isRead;
     private LocalDateTime date;

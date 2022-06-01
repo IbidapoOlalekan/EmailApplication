@@ -8,4 +8,5 @@ public interface UserService {
     UserResponse createUser(CreateUserRequest request);
 
     LoginResponse login(CreateUserRequest request);
+
 }
