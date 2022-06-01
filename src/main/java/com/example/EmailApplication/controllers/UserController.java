@@ -5,6 +5,7 @@ import com.example.EmailApplication.data.models.User;
 import com.example.EmailApplication.dtos.requests.CreateUserRequest;
 import com.example.EmailApplication.dtos.responses.ApiResponse;
 import com.example.EmailApplication.dtos.responses.LoginResponse;
+import com.example.EmailApplication.dtos.responses.MailResponse;
 import com.example.EmailApplication.dtos.responses.UserResponse;
 import com.example.EmailApplication.exceptions.LoginException;
 import com.example.EmailApplication.exceptions.UserException;
@@ -54,7 +55,7 @@ public class UserController {
 
     @GetMapping("/inbox/{email}")
     public ResponseEntity<?> getAllInbox(@PathVariable  String email){
-        List<MailBox> allInboxes = mailboxesService.viewAllInboxes(email);
+        MailResponse allInboxes = mailboxesService.viewAllInboxes(email);
         try {
             ApiResponse apiResponse = ApiResponse.builder()
                     .payload(allInboxes)

@@ -3,6 +3,7 @@ package com.example.EmailApplication.services;
 import com.example.EmailApplication.data.models.MailBox;
 import com.example.EmailApplication.data.models.MailBoxes;
 import com.example.EmailApplication.data.models.Message;
+import com.example.EmailApplication.dtos.responses.MailResponse;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ public interface MailboxesService {
 
     void addMessage(Message message);
 
-    List<MailBox> viewAllInboxes(String emailAddress);
+    MailResponse viewAllInboxes(String emailAddress);
 
     List<MailBox> viewAllSent(String emailAddress);
 }

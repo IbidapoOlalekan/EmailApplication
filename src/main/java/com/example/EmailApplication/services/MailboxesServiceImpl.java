@@ -3,6 +3,7 @@ package com.example.EmailApplication.services;
 import com.example.EmailApplication.data.models.*;
 import com.example.EmailApplication.data.repositories.MailBoxesRepository;
 import com.example.EmailApplication.data.repositories.UserRepository;
+import com.example.EmailApplication.dtos.responses.MailResponse;
 import com.example.EmailApplication.exceptions.EmailNotFoundException;
 import com.example.EmailApplication.exceptions.LoginException;
 import com.example.EmailApplication.exceptions.UserException;
@@ -32,16 +33,19 @@ public class MailboxesServiceImpl implements MailboxesService{
     }
 
     @Override
-    public List<MailBox> viewAllInboxes(String emailAddress) {
+    public MailResponse viewAllInboxes(String emailAddress) {
         MailBoxes mailBoxes = mailBoxesRepository.findById(emailAddress).orElseThrow(()-> new EmailNotFoundException("Email not found"));
         User user  = userRepository.findUserByEmail(emailAddress).orElseThrow(()-> new UserException("User does not exist"));
         if (user.isLoggedIn()){
-            mailBoxes.setUsername(emailAddress);
-            return mailBoxes.getBoxes()
+            MailResponse response = new MailResponse();
+            response.setUsername(emailAddress);
+            response.setMailBox(mailBoxes.getBoxes()
                     .stream()
                     .parallel()
                     .filter(mailBox -> mailBox.getMailType() == Type.INBOX)
-                    .collect(Collectors.toList());
+                    .collect(Collectors.toList()));
+            return response;
+
         }
         throw new LoginException("User is not logged in");
     }
