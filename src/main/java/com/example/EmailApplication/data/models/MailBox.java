@@ -14,8 +14,8 @@ public class MailBox {
     private Type mailType;
     private List<Message> messages;
 
-    public MailBox(Type mailType, List<Message> messageList){
+    public MailBox(Type mailType, List<Message> messages){
         this.mailType = mailType;
-        this.messages = messageList;
+        this.messages = messages;
     }
 }

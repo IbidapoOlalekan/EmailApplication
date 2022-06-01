@@ -57,13 +57,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public LoginResponse login(CreateUserRequest request) {
-        User user = userRepository.findUserByEmail(request.getEmail()).orElseThrow(()-> new UserException("User Not Found"));
+        User user = userRepository.findUserByEmail(request.getEmail())
+                .orElseThrow(()-> new UserException("User Not Found"));
         LoginResponse response = new LoginResponse();
-        if (!user.isLoggedIn()) {
-            if (user.getPassword().equals(request.getPassword()))
+
+        if(!user.isLoggedIn()){
+            if (user.getPassword().equals(request.getPassword())) {
+                user.setLoggedIn(true);
+                User savedUser = userRepository.save(user);
                 response.setSuccessful(true);
-            mapper.map(request, response);
-            return response;
-        } else throw new LoginException("Invalid Details");
+                mapper.map(request, response);
+                return response;
+            }
+            else throw new LoginException("Invalid Details");
+        }
+        return new LoginResponse("User Already Logged In",false);
     }
 }
