@@ -51,15 +51,18 @@ public class MailboxesServiceImpl implements MailboxesService{
     }
 
     @Override
-    public List<MailBox> viewAllSent(String emailAddress) {
+    public MailResponse viewAllSent(String emailAddress) {
         MailBoxes mailBoxes = mailBoxesRepository.findById(emailAddress).orElseThrow(()->new EmailNotFoundException("Email Not Found"));
         User user = userRepository.findUserByEmail(emailAddress).orElseThrow(()->new UserException("User Not Found "));
         if (user.isLoggedIn()){
-            return mailBoxes.getBoxes()
+            MailResponse response = new MailResponse();
+            response.setUsername(emailAddress);
+            response.setMailBox(mailBoxes.getBoxes()
                     .stream()
                     .parallel()
                     .filter(mailBox->mailBox.getMailType()==Type.SENT)
-                    .collect(Collectors.toList());
+                    .collect(Collectors.toList()));
+            return response;
         }
         throw new LoginException("User is Not logged in");
     }

@@ -14,5 +14,5 @@ public interface MailboxesService {
 
     MailResponse viewAllInboxes(String emailAddress);
 
-    List<MailBox> viewAllSent(String emailAddress);
+    MailResponse viewAllSent(String emailAddress);
 }
