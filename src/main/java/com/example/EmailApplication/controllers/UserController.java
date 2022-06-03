@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -72,6 +73,29 @@ public class UserController {
                     .statusCode(400)
                     .build();
             return new ResponseEntity<>(apiResponse,HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/sent/{email}")
+    public ResponseEntity<?> getAllSent(@PathVariable  String email){
+        MailResponse allSentMail = mailboxesService.viewAllSent(email);
+        try {
+            ApiResponse apiResponse = ApiResponse.builder()
+                    .payload(allSentMail)
+                    .isSuccessful(true)
+                    .statusCode(200)
+                    .message("All Sent Mail Displayed")
+                    .build();
+            return new ResponseEntity<>(apiResponse,HttpStatus.OK);
+        }
+        catch(LoginException ex){
+            ApiResponse apiResponse = ApiResponse.builder()
+                    .message(ex.getMessage())
+                    .isSuccessful(false)
+                    .statusCode(400)
+                    .build();
+            return new ResponseEntity<>(apiResponse,HttpStatus.BAD_REQUEST);
+
         }
     }
 
